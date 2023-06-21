@@ -51,7 +51,7 @@ public class PlayerJumpController : MonoBehaviour
     {
         if (_isOnGround)
         {
-            _rigidBody.AddForce(Vector2.up * _jumpStrength);
+            _rigidBody.AddForce(Vector2.up * _jumpStrength, ForceMode2D.Impulse);
         }
     }
 }
