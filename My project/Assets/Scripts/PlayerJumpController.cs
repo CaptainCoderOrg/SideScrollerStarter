@@ -12,8 +12,11 @@ public class PlayerJumpController : MonoBehaviour
     private float _distanceDelta = 0.1f;
     [SerializeField]
     private LayerMask _platformLayer;
+    [SerializeField]
+    private Transform _groundCheck;
     private Rigidbody2D _rigidBody;
     private Collider2D _collider;
+    
     private void Awake()
     {
         // cache the values
@@ -33,9 +36,15 @@ public class PlayerJumpController : MonoBehaviour
 
     private void CheckGround()
     {
-        float distance = _collider.bounds.extents.y + _distanceDelta;
-        RaycastHit2D raycastHit = Physics2D.Raycast(transform.position, Vector2.down, distance, _platformLayer);
+        // float distance = _collider.bounds.extents.y + _distanceDelta;
+        // RaycastHit2D raycastHit = Physics2D.Raycast(transform.position, Vector2.down, distance, _platformLayer);
+        // _isOnGround = raycastHit.collider != null;
+
+        RaycastHit2D raycastHit = Physics2D.BoxCast(_groundCheck.position, new Vector2(_collider.bounds.size.x, _distanceDelta), 0, Vector2.down, _distanceDelta, _platformLayer);
         _isOnGround = raycastHit.collider != null;
+        // Physics2D.OverlapBox
+        // _isOnGround = collision != null;
+
         // The code below is equivalent in logic
         // if (raycastHit.collider != null)
         // {
@@ -45,6 +54,14 @@ public class PlayerJumpController : MonoBehaviour
         // {
         //     _isOnGround = false;
         // }
+    }
+
+    void OnDrawGizmos()
+    {
+        // Draw a yellow sphere at the transform's position
+        _collider ??= GetComponent<Collider2D>();
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(_groundCheck.position, new Vector2(_collider.bounds.size.x, _distanceDelta));
     }
 
     private void PerformJump()
