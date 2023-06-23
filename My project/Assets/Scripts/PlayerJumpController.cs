@@ -38,6 +38,7 @@ public class PlayerJumpController : MonoBehaviour
     {
         // float distance = _collider.bounds.extents.y + _distanceDelta;
         // RaycastHit2D raycastHit = Physics2D.Raycast(transform.position, Vector2.down, distance, _platformLayer);
+        Debug.DrawRay(transform.position, Vector2.down, Color.yellow, 1);
         // _isOnGround = raycastHit.collider != null;
 
         RaycastHit2D raycastHit = Physics2D.BoxCast(_groundCheck.position, new Vector2(_collider.bounds.size.x, _distanceDelta), 0, Vector2.down, _distanceDelta, _platformLayer);
